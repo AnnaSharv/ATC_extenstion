@@ -1,0 +1,988 @@
+<!-- fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Hubballi&family=Inspiration&family=Lato:wght@100;300&family=Lora:ital@1&family=Montserrat:wght@300&family=PT+Sans&family=Roboto:ital,wght@0,100;1,300&display=swap" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- animations and jQuery -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossOrigin="anonymous" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript" defer></script>
+<style>
+  .atc-sum {
+    display: none !important;
+  }
+
+  #widgetTemplate {
+    {% comment %} height: fit-content; {% endcomment %}
+    opacity:0;
+    visibility:hidden;
+    transition: all .3s ease .15s;
+  }
+
+  .atc-cart-item {
+    padding: 10px;
+  }
+
+  .atc-timer {
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px
+  }
+
+  .atc-timer>#timer {
+    font-weight: bold;
+  }
+  .mediaicons > a {
+    text-decoration: none !important;
+  }
+  .mediaicons > a img {
+    width: 25px;
+  }
+
+  .atc-quantity:after {
+    box-shadow: none;
+  }
+
+  .atc-product-title {
+    font-family: 'Lato';
+    width: 100%;
+    display: flex;
+    margin-bottom: 5px;
+    text-decoration: none;
+  }
+
+  .atc-product-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    grid-column-gap: 15px;
+    grid-row-gap: 10px;
+  }
+
+  .atc-quantity {
+    display: flex;
+    width: 122px;
+    font-weight: bold;
+    outline: 1px solid #e9ecef;
+    border-radius: 4px;
+    height: 40px;
+    min-height: 40px;
+    background-color: #FFFFFF;
+  }
+
+  .minus,
+  .plus {
+    margin-top: -2px;
+  }
+
+  .atc-quantity>span {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: 'Lato';
+  }
+
+  .atc-quantity input {
+    border: 0;
+    max-width: min-content;
+    width: 40px;
+    height: 40px;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 16px;
+    text-align: center;
+    outline: 1px solid #e9ecef;
+  }
+
+  .atc-variants select,
+  .atc-variants select:focus {
+    outline: none;
+    border: 1px solid #eaecef;
+    border-radius: 4px;
+    width: 100%;
+    height: 40px;
+    padding-left: 6px;
+  }
+
+  .atc-variants select:focus-visible {
+    box-shadow: none;
+  }
+
+  .atc-button:focus {
+    border: 0;
+    outline: none;
+  }
+
+  .atc-button {
+    border: 0;
+    padding: 10px 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .atc-layout {
+    background-color: rgb(63 63 68 / 11%);
+    overflow-y: auto;
+    box-shadow: -1px -6px 20px #0000002b;
+  }
+
+  .atc-mTitle,
+  .atc-product-title {
+    font-weight: bold;
+  }
+
+  .atc-product-image {
+    background-color: #FFFFFF;
+    max-width: 100px;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+
+  }
+
+  .tee-cart-thumbnail__img,
+  .tee-cart-thumbnail .loaded {
+    height: 50px !important;
+  }
+
+  .content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .priceSectionWrapper {
+    display: flex;
+    align-items: center;
+    grid-gap: 6px;
+    font-weight: bold !important;
+  }
+
+  .priceSection {
+    display: flex;
+    align-items: center;
+    grid-gap: 20px;
+  }
+
+  .totalAmount {
+    font-size: 16px;
+    font-weight: bold;
+    opacity: 0.4;
+  }
+
+  .finalPrice {
+    font-size: 12px !important;
+    opacity: 0.4;
+  }
+
+  .comparePrice {
+    font-size: 19px;
+    font-weight: bold;
+  }
+
+  .mLayout {
+    display: flex;
+    grid-column-gap: 10px;
+    align-items: center;
+  }
+
+  .atc-mTitle {
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .atc-mTitle,
+  .atc-mImg {
+    display: none;
+  }
+
+  .atc-variants {
+    /* width: 100%;
+    height: 100%; */
+    font-size: 14px;
+    {% comment %} padding: 0.375rem 0.75rem 0.375rem 0.75rem; {% endcomment %}
+    border-radius: 4px;
+    width:100%;
+  }
+  .atc-variants-wrapper {
+    display: flex;
+    grid-column-gap: 5%;
+    flex: 0.6;
+  }
+
+  @media only screen and (max-width: 1100px)  {
+    .atc-variants-wrapper {
+      flex:auto;
+    }
+  }
+  @media only screen and (max-width: 645px) {
+    .atc-variants select, .atc-variants select:focus {
+      border: 1px solid #000;
+      height: 30px;
+      border-radius: 0px
+    }
+    .atc-variants-wrapper {
+      order: 1;
+      width: 100%;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .priceSection {
+      order: 2;
+    }
+
+    .atc-quantity {
+      order: 3
+    }
+
+    .atc-button {
+      order: 4;
+      font-size: 12px !important;
+    }
+
+    .atc-variants {
+      padding: 0 !important;
+      font-size: 12px !important;
+      border-radius: 0px;
+    }
+
+    .atc-quantity {
+      width: fit-content;
+      font-weight: bold;
+      outline: 1px solid black;
+      border-radius: 0;
+      height: 30px;
+      min-height: 30px;
+    }
+
+    .atc-quantity>span {
+      display: none;
+    }
+
+    .atc-quantity>input {
+      {% comment %} height: 30px; {% endcomment %}
+      height:100%;
+      min-height: 30px;
+      font-size: 10px;
+    }
+
+    .atc-product-content {
+      grid-gap: 10px;
+    }
+
+    .priceSectionWrapper {
+      display: block;
+    }
+
+    .totalAmount {
+      line-height: 12px;
+      font-size: 13px;
+    }
+
+    .atc-product-image,
+    .atc-product-title {
+      display: none !important;
+    }
+
+    .atc-mTitle {
+      /* width: 60%; */
+      display:block;
+      text-decoration: none;
+      font-size: 14px;
+
+    }
+
+  
+    .atc-mImg {
+      display: block;
+      max-width: 80px;
+    }
+
+    .atc-timer {
+      text-align: center;
+      padding: 8px;
+      font-size: 10px !important;
+    }
+
+    .finalPrice {
+      font-size: 10px !important;
+    }
+
+    .comparePrice {
+      font-size: 12px !important;
+    }
+
+    .atc-button {
+      flex: 0.8;
+    }
+
+    .mediaicons {
+      display: none;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .atc-cart-item {
+      position: relative
+    }
+
+    .atc-product-content>div,
+    .atc-button {
+      margin-left: 0;
+    }
+
+    .atc-product-content {
+      justify-content: space-between !important;
+    }
+
+    .atc-button {
+      padding: 0 20px;
+    }
+
+    .atc-price {
+      position: static;
+    }
+
+    .atc-quantity,
+    .atc-variants,
+    .atc-button {
+      height: 35px;
+    }
+  }
+</style>
+<script>
+  // const apiUrl = "https://stickyatcdev.ngrok.io";
+  const apiUrl = "https://atc.podsolutions.de";
+  let secondsRemaining, intervalHandle, timerDateMinutes, timerDateSeconds, widgetId, displayTimer, settingMinutes, settingSeconds;
+  const currency_symbol = ("{{ shop.money_format }}").substring(0, 1)
+  const currency = "{{ shop.currency }}"
+  const shop = window.Shopify.shop
+  const productOptions = JSON.parse(`{{ product.options_with_values | json }}`);
+  const product = {{ product | json }}
+
+  let main = async () => {
+    var widgetShow = false;
+    var data = await getWidgetData();
+    widgetId = data.widgetId
+    let timestamp = Math.round(new Date(data.updatedAt).getTime() / 1000)
+    settingMinutes = parseInt(data.timerDate ? data.timerDate.slice(0, 2) : 0)
+    settingSeconds = parseInt(data.timerDate ? data.timerDate.slice(3, 6) : 0)
+    timestamp += settingMinutes * 60
+    timestamp += settingSeconds
+    const current = Math.round(new Date().getTime() / 1000)
+
+    if (data.scrollHeight == 0 || data.scrollHeight == null || data.scrollHeight == undefined) {
+      document.getElementById("widgetTemplate").style.display = "block";
+    }
+
+    if(timestamp > current) {
+      timerDateMinutes = Math.floor((timestamp - current) / 60)
+      timerDateSeconds = (timestamp - current) % 60
+    } else {
+      if (data.timerDate) {
+        for(;;) {
+          timestamp += parseInt(data.timerDate.slice(0, 2)) * 60
+          timestamp += parseInt(data.timerDate.slice(3, 6))
+          if (timestamp > current) {
+            timerDateMinutes = Math.floor((timestamp - current) / 60)
+            timerDateSeconds = (timestamp - current) % 60
+            break;
+          }
+        }
+      }
+    }
+    
+    if (window.location.pathname.length <= 1 && data.pagesToShow == "main page") {
+      widgetShow = true;
+    } else if (window.location.pathname.indexOf('/products') !== -1 && data.pagesToShow == "product page") {
+      widgetShow = true;
+    } else if (window.location.pathname.indexOf('/cart') !== -1 && data.pagesToShow == "main page") {
+      widgetShow = true;
+    } else {
+      if (data.pagesToShow == "all pages") {
+        widgetShow = true;
+      }
+    }
+    if (widgetShow) {
+      var htmlForm = (window.location.pathname.indexOf('/products') !== -1) ? await renderWidgetForProduct(data) : "";
+      if (htmlForm) {
+        document.getElementById("widgetTemplate").innerHTML += htmlForm;
+        //social media icons
+        if (data.showMediaIcons) {
+          var fbimg = `<a href="//${data.showMediaIconsFacebookUrl}" target="_blank"> <img src = "https://img.icons8.com/color/48/000000/facebook-circled--v1.png" /> </a>`;
+          var instaimg = `<a href="//${data.showMediaIconsInstagramUrl}" target="_blank"> <img src = "https://img.icons8.com/fluency/48/000000/instagram-new.png" /> </a>`;
+          var twimg = `<a href="//${data.showMediaIconsTwitterUrl}" target="_blank"> <img src = "https://img.icons8.com/color/48/000000/twitter-circled--v1.png" /> </a>`;
+          var goimg = `<a href="//${data.showMediaIconsGoogleUrl}" target="_blank"> <img src = "https://img.icons8.com/color/48/000000/google-logo.png" /> </a>`;
+          var linkimg = `<a href="//${data.showMediaIconsLinkedinUrl}" target="_blank"> <img src = "https://img.icons8.com/fluency/48/000000/linkedin.png" /> </a>`;
+          var pinimg = `<a href="//${data.showMediaIconsPinterestUrl}" target="_blank"> <img src = "https://img.icons8.com/fluency/48/000000/pinterest.png" /> </a>`;
+          var tumimg = `<a href="//${data.showMediaIconsTumblrUrl}" target="_blank"> <img src = "https://img.icons8.com/fluency/48/000000/tumblr.png" /> </a>`;
+          data.showMediaIconsFacebookUrl ? document.querySelector(".mediaicons").innerHTML += fbimg : '';
+          data.showMediaIconsInstagramUrl ? document.querySelector(".mediaicons").innerHTML += instaimg : '';
+          data.showMediaIconsTwitterUrl ? document.querySelector(".mediaicons").innerHTML += twimg : '';
+          data.showMediaIconsGoogleUrl ? document.querySelector(".mediaicons").innerHTML += goimg : '';
+          data.showMediaIconsLinkedinUrl ? document.querySelector(".mediaicons").innerHTML += linkimg : '';
+          data.showMediaIconsPinterestUrl ? document.querySelector(".mediaicons").innerHTML += pinimg : '';
+          data.showMediaIconsTumblrUrl ? document.querySelector(".mediaicons").innerHTML += tumimg : '';
+        }
+        //default styles
+        document.querySelectorAll(".totalAmount").forEach((el) => {
+          el.style.fontFamily = data.buttonFont;
+          el.style.color = data.priceColor;
+        });
+        document.querySelectorAll(".atc-timer").forEach((el) => {
+          el.style.display = data.showUrgencyTime;
+          el.style.backgroundColor = data.timerBackgroundColor;
+          el.style.fontSize = data.timerTextSize + "px";
+          el.style.fontFamily = data.timerFont;
+          el.style.color = data.timerTextColor;
+        });
+        document.querySelectorAll("#timer").forEach((el) => {
+          el.style.fontFamily = data.timerFont;
+        });
+        document.querySelectorAll(".atc-cart-item").forEach((el) => {
+          el.style.color = data.productColor;
+          el.style.backgroundColor = data.borderBackgroundColor;
+        });
+        document.querySelectorAll(".atc-product-title").forEach((el) => {
+          el.style.color = data.productColor;
+          el.style.fontSize = data.productTitleSize + "px";
+          el.style.justifyContent = data.barAlignment;
+        });
+        document.querySelectorAll(".atc-mTitle").forEach((el) => {
+          el.style.color = data.productColor;
+        });
+        document.querySelectorAll(".atc-product-image").forEach((el) => {
+          el.style.borderRadius = data.productImageShape + "px";
+        });
+        document.querySelectorAll(".atc-price").forEach((el) => {
+          el.style.color = data.priceColor;
+          el.style.fontSize = data.priceSize + "px";
+          el.style.fontFamily = data.priceFont;
+        });
+        document.querySelectorAll(".finalPrice").forEach((el) => {
+          el.style.fontWeight = "bold"
+          el.style.fontFamily = data.priceFont;
+        });
+        document.querySelectorAll(".atc-variants").forEach((el) => {
+          el.style.color = data.variantColor;
+          el.style.backgroundColor = data.variantBackgroundColor;
+          el.style.fontSize = data.variantTextSize + "px";
+          el.borderRadius = data.borderRadius + "px"
+        });
+        document.querySelectorAll(".atc-button").forEach((el) => {
+          el.style.color = data.buyButtonColorText;
+          el.style.backgroundColor = data.buyButtonColor;
+          el.style.fontSize = data.buttonTextSize + "px";
+          el.style.borderRadius = data.buyButtonShape + "px";
+          el.style.fontFamily = data.buttonFont
+        });
+        document.querySelectorAll(".atc-product-content").forEach((el) => {
+          el.style.justifyContent = data.barAlignment;
+        });
+        document.querySelectorAll("#widgetTemplate").forEach((el) => {
+          if (data.widgetPositions === 'flex-start') {
+            el.style.top = 0;
+          }
+          if (data.widgetPositions === 'flex-end') {
+            el.style.bottom = 0;
+          }
+        });
+        // ANIMATION WIDGET   mushaobs
+        var animate = data.borderAnimation.split(" ");
+        document.querySelector("#widgetTemplate").classList.add(animate[0], animate[1])
+        // ANIMATION WIDGET   mushaobs
+        animate = data.borderSpeedOfAnimation.split(" ");
+        document.querySelector("#widgetTemplate").classList.add(animate[0], animate[1])
+        // ANIMATION WIDGET   mushaobs
+        var stl = data.showLoopAnimation ? "animate__infinite" : "none";
+        document.querySelector("#widgetTemplate").classList.add("infinite", stl)
+        // ANIMATION price   mushaobs
+        animate = data.priceAnimation.split(" ");
+        document.querySelectorAll(".atc-price").forEach((el) => {
+          el.classList.add(animate[0], animate[1]);
+        })
+        // ANIMATION button   mushaobs
+        animate = data.buttonAnimation.split(" ");
+        document.querySelectorAll(".atc-button").forEach((el) => {
+          el.classList.add(animate[0], animate[1]);
+        })
+        // ANIMATION button   mushaobs
+        animate = data.buttonSpeedOfAnimation.split(" ");
+        document.querySelectorAll(".atc-button").forEach((el) => {
+          el.classList.add(animate[0], animate[1])
+        });
+        // ANIMATION button   mushaobs
+        var stl3 = data.showButtonLoopAnimation ? "animate__infinite" : "none";
+        document.querySelectorAll(".atc-button").forEach((el) => {
+          el.classList.add("infinite", stl3);
+        })
+        //Timer----------
+        if (data.showUrgencyTime) {
+          document.querySelectorAll(".atc-timer").forEach((el) => {
+            el.style.display = 'block';
+          });
+          startCountdown();
+        } else {
+          document.querySelectorAll(".atc-timer").forEach((el) => {
+            el.style.display = 'none';
+          });
+        }
+        //Product image----------
+        if (data.showProductImage) {
+          document.querySelectorAll(".atc-bg-product-image").forEach((el) => {
+            el.style.display = 'block';
+          });
+        } else {
+          document.querySelectorAll(".atc-bg-product-image").forEach((el) => {
+            el.style.display = 'none';
+          });
+        }
+        //Product name----------
+        if (data.showProductName) {
+          document.querySelectorAll(".atc-product-title").forEach((el) => {
+            el.style.display = 'flex';
+          });
+        } else {
+          document.querySelectorAll(".atc-product-title").forEach((el) => {
+            el.style.display = 'none';
+          });
+        }
+        //Product price----------
+        if (data.showPrice) {
+          /* document.querySelectorAll(".atc-price").forEach((el) => {
+            el.style.display = 'block';
+          });
+          document.querySelectorAll(".atc-sum").forEach((el) => {
+            el.style.display = 'block';
+          }); */
+          document.querySelectorAll(".priceSection").forEach((el) => {
+            el.style.display = 'flex';
+          });
+        } else {
+          /* document.querySelectorAll(".atc-price").forEach((el) => {
+            el.style.display = 'none';
+          });
+          document.querySelectorAll(".atc-sum").forEach((el) => {
+            el.style.display = 'none';
+          }); */
+          document.querySelectorAll(".priceSection").forEach((el) => {
+            el.style.display = 'none';
+          });
+        }
+
+        {% comment %} update1 {% endcomment %}
+        if (data.showPriceLabel) {
+          document.querySelectorAll(".totalAmount").forEach((el) => {
+            el.style.display = 'block';
+          });
+        } else {
+          document.querySelectorAll(".totalAmount").forEach((el) => {
+            el.style.display = 'none';
+          });
+        }
+        //Product variants----------
+        if (data.showVariants) {
+          document.querySelectorAll(".atc-variants-wrapper").forEach((el) => {
+            el.style.display = 'flex';
+          });
+        } else {
+          document.querySelectorAll(".atc-variants-wrapper").forEach((el) => {
+            el.style.display = 'none';
+          });
+        }
+        //Product quantity----------
+        if (data.showQuantity) {
+          document.querySelectorAll(".atc-quantity").forEach((el) => {
+            el.style.display = 'flex';
+          });
+        } else {
+          document.querySelectorAll(".atc-quantity").forEach((el) => {
+            el.style.display = 'none';
+          });
+        }
+      }
+    }
+
+    document.onscroll = () => {
+      const scrollHeight = document.querySelector("html").scrollTop;
+      if (scrollHeight >= 400) {
+        {% comment %} document.getElementById("widgetTemplate").style.display = "block"; {% endcomment %}
+        document.getElementById("widgetTemplate").style.opacity = 1;
+        document.getElementById("widgetTemplate").style.visibility = "visible";
+      } else {
+        {% comment %} document.getElementById("widgetTemplate").style.display = "none"; {% endcomment %}
+        document.getElementById("widgetTemplate").style.opacity = 0;
+        document.getElementById("widgetTemplate").style.visibility = "hidden";
+
+      }
+    }
+  };
+
+  let clickWidget = async (status, shop, widgetId, productTitle, productId, productPrice, currency, inputId, goTo) => {
+    const variantId = document.getElementById("inputVariant-" + inputId).value; 
+    const quantity = document.getElementById("inputQuantity-" + inputId).value;
+    
+    if(status) {
+      const rawResponse = await fetch(apiUrl + "/click?shop=" + shop, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          shop: shop,
+          widgetId: widgetId,
+          productTitle: productTitle,
+          productId: productId,
+          variantId: variantId,
+          productPrice: productPrice,
+          currency: currency
+        }),
+      });
+    }
+
+    const updateCartResponse = await fetch("/cart/add.js", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: quantity
+      }),
+    });
+
+    if (updateCartResponse) {
+      if (goTo == 'cart') {
+        window.location.href = "/cart";
+      } else if (goTo == 'checkout') {
+        window.location.href = "/checkout";
+      } else if (goTo == 'stay') {
+        const cartCounter = document.querySelector("[data-atc-cart-counter]");
+        let count = cartCounter.innerHTML ? parseInt(cartCounter.innerHTML) : 0;
+
+        count += parseInt(quantity);
+        cartCounter.innerHTML = count;
+      }
+    }
+  }
+
+  let checkArrayEquals = (arr1, arr2) => {
+    for(index = 0; index < arr1.length; index++) {
+      if (arr1[index] != arr2[index]) {
+        return false;
+      }
+    };
+
+    return true;
+  }
+
+  let variantChange = async () => {
+    let options = [];
+    document.querySelectorAll(".variantSelect").forEach((element) => {
+      options.push(element.value);
+    });
+
+    product.variants.forEach(async (variant) => {
+      if(checkArrayEquals(variant.options, options)) {
+        console.log("ok");
+        console.log(options);
+        console.log(variant);
+        const price = await formatMoney(variant.price);
+        const compareAtPrice = await formatMoney(variant.compare_at_price);
+        
+        let priceHtml = "";
+
+        if (compareAtPrice > price) {
+            priceHtml = `
+                <div> <s class="finalPrice"> ${ compareAtPrice } </s> </div>
+                <div class="atc-price comparePrice">${ price }  </div>
+            `;
+        } else {
+            priceHtml = `<div class="atc-price comparePrice">${ price }  </div>`;
+        }
+
+        document.querySelector(".atc-product-content .priceSectionWrapper").innerHTML = priceHtml;
+        document.getElementById(`inputVariant-${ product.id }`).value = variant.id;
+
+        return;
+      }
+    });
+  }
+
+  let formatMoney = async (cents) => {
+    if (typeof cents === 'string') {
+        cents = cents.replace('.', '');
+    }
+    
+    let value = '';
+    const format = "{{ shop.money_format }}";
+    const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+    
+    function formatWithDelimiters(number, precision, thousands, decimal) {
+      if (typeof precision == 'undefined') {
+        precision = 2;
+      }
+  
+      thousands = "{{ 100000 | money | split: '1' | last | split: '0' | first }}";
+      decimal = thousands == ',' ? '.' : ',';
+  
+      if (isNaN(number) || number == null) {
+        return 0;
+      }
+  
+      number = (number / 100).toFixed(precision);
+  
+      const parts = number.split('.');
+      const dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+      const centsAmount = parts[1] ? decimal + parts[1] : '';
+  
+      return dollarsAmount + centsAmount;
+    }
+    
+    switch (format.match(placeholderRegex)[1]) {
+      case 'amount':
+        value = formatWithDelimiters(cents, 2);
+        break;
+      case 'amount_with_comma_separator':
+        value = formatWithDelimiters(cents, 2);
+        break;
+      case 'amount_no_decimals':
+        value = formatWithDelimiters(cents, 0);
+        break;
+      case 'amount_with_space_separator':
+        value = formatWithDelimiters(cents, 2);
+        break;
+      case 'amount_no_decimals_with_comma_separator':
+        value = formatWithDelimiters(cents, 0);
+        break;
+      case 'amount_no_decimals_with_space_separator':
+        value = formatWithDelimiters(cents, 0);
+        break;
+    }
+
+    return format.replace(placeholderRegex, value);
+  }
+
+  let getWidgetData = async () => {
+    const rawResponse = await fetch(apiUrl + "/enabledwidget?shop=" + shop, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: '{}',
+    });
+    return await rawResponse.json();
+  }
+  let renderProductVariants = (variants, product_id, seleted) => {
+    selectionVarinats = [];
+    for (const variant of variants[product_id]) {
+      if (variant.available) {
+        selectionVarinats.push(`
+		<option ${variant.id == seleted ? "selected" : ""} value="${ variant.id }">${ variant.title }</option>`);
+      } else {
+        selectionVarinats.push(`
+		<option disabled="disabled">${ variant.title }</option>`);
+      }
+    }
+    return selectionVarinats;
+  };
+  // product page
+  let renderWidgetForProduct = async (data) => {
+    let form = "";
+    var urlCart = "{{ routes.cart_url }}"
+    var btnName = "add"
+    var selVarinats = "{{ product.selected_or_first_available_variant.title }}"
+    var finalPrice = "{{ product.price_max | money }}"
+    var comparePrice = "{{product.compare_at_price_max | money}}"
+    const defaultPrice = "{{ product.selected_or_first_available_variant.price | money }}"
+    const defaultComparePrice = "{{ product.selected_or_first_available_variant.compare_at_price | money }}"
+    var price = product.price / 100;
+    var curr = "{{shop.money_format}}"
+    var formattedcurr = curr.slice(31)
+    //fixed
+    var productId = product.id
+
+    let selectionVarinats = productOptions.map((option, index) => {
+      return `
+        <label class="variants atc-variants">
+          {% comment %} ${option.name} {% endcomment %}
+          <select id="variantSelect-${index}" class="variantSelect" onchange="variantChange()">
+            ${option.values.map((value) => `<option value=${value}>${value}</option>`)}
+          </select>
+        </label>
+      `;
+    }).join('');
+
+    /* let selectionVarinats = product.variants.map(function(variant){
+        if (variant.available) {
+            return `<option ${variant.title == selVarinats ? "selected" : ""} value="${ variant.id }" data-price="${ variant.price }" data-compare-at-price="${ variant.compare_at_price }">${ variant.title }</option>`;
+        } else {
+            return `<option disabled="disabled">${ variant.title }</option>`;
+        }    
+    }); */
+
+    const timerHtml = data.showUrgencyTime ? `<div class="c-show minute-second atc-timer">
+      ${data.timerText} <span id="timer" data-minutes="${timerDateMinutes}" data-seconds="${timerDateSeconds}" data-setting-minutes="${settingMinutes}" data-setting-seconds="${settingSeconds}"></span>
+      </div>` : ``;
+     
+      form = `<form action="${urlCart}" method="post" class="my-cart test-class">
+            <div class="atc-cart" data-ajax-cart-section>
+                <div class="atc-layout">
+                    ${timerHtml}
+                    <div class="atc-cart-item my-cart__item">
+                        <div class="mediaicons"> </div>
+                        <div class='mLayout'> 
+                            <div class="atc-bg-product-image">
+                                            <img src="${ product.featured_image }" width="auto" height="80" class="atc-mImg"></img>
+                                        </div>
+                                        <a href="/products/${ product.handle }" class="atc-mTitle">${ product.title }</a>
+                        </div>
+                        <a href="/products/${ product.handle }" class="atc-product-title">${ product.title }</a>
+ 
+                        <div class="atc-product-content">
+                                                        <div class="atc-bg-product-image">
+                                <img src="${product.featured_image}"  width="auto" height="80" class="atc-product-image"></img>
+                                                        </div>
+                            <div class="priceSection">
+                                <div class='totalAmount'> ${data.priceLabel || "Price"} </div>
+                                <div class="priceSectionWrapper"> 
+                                    {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %} 
+                                        <div> <s class="finalPrice"> ${ defaultComparePrice } </s> </div>
+                                        <div class="atc-price comparePrice">${ defaultPrice }  </div>
+                                    {% else %}
+                                        <div class="atc-price comparePrice"> ${ defaultPrice }  </div>
+                                    {% endif %} 
+                                    
+                                </div>
+                            </div>
+                            ${ product.variants.length > 1 ?
+                              `<div class="atc-variants-wrapper">
+                                ${selectionVarinats}
+                              </div>` : 
+                              ``
+                           }
+                           <input name="id" type="hidden" id="inputVariant-${ product.id }" value="${ product.variants[0].id }">
+ 
+                            <div class="quantity atc-quantity">
+                                <span
+                                    class="buttonDecrement"
+                                    onClick="getProductPriceDecrement('${ product.id }', ${ product.price / 100 })"
+                                >
+                                 <span class="minus"> - </span>
+                                </span>
+                                <input type="number" name="quantity" id="inputQuantity-${ product.id }" value="1"/>
+                                <span
+                                    class="buttonIncrement"
+                                    onClick="getProductPriceIncrement('${ product.id }', ${ product.price / 100 })"
+                                 >
+                                 <span class="plus"> + </span>
+                                </span>
+                            </div>
+
+                                <button type="button" name="${ btnName }" class="atc-button animate__animated" 
+                                onClick="clickWidget(${data.calculateClicks}, '${shop}', ${widgetId}, '${product.title}', ${productId}, ${ product.price }, '${currency}', ${productId}, '${ data.goTo }')">${data.buyButtonText}</button>
+                            <div class="atc-sum">Total: <strong id="sum-price-${ product.id }">${ product.price }</strong></div>       
+                        </div>
+                    </div>
+ 
+                </div>
+            </div>
+        </form>`;
+     
+        return form
+  }
+  const getProductPriceIncrement = (inputId, price) => {
+    document.getElementById("inputQuantity-" + inputId).stepUp(1);
+    var quantity = document.getElementById("inputQuantity-" + inputId).value;
+    document.getElementById("sum-price-" + inputId).innerHTML = (price * parseInt(quantity)).toFixed(2);
+  }
+  const getProductPriceDecrement = (inputId, price) => {
+    var quantity = document.getElementById("inputQuantity-" + inputId).value;
+    if (quantity > 1) {
+      document.getElementById("inputQuantity-" + inputId).stepDown(1);
+      quantity = document.getElementById("inputQuantity-" + inputId).value;
+      document.getElementById("sum-price-" + inputId).innerHTML = (price * parseInt(quantity)).toFixed(2);
+    }
+  }
+  //timer
+  function tick() {
+    // grab the h1
+    var timeDisplay = document.getElementById("timer");
+    // turn the seconds into mm:ss
+    var min = Math.floor(secondsRemaining / 60);
+    var sec = secondsRemaining - min * 60;
+    //add a leading zero (as a string value) if seconds less than 10
+    if (sec < 10) {
+      sec = "0" + sec;
+    }
+    // concatenate with colon
+    var message = min.toString() + ":" + sec;
+    // now change the display
+    timeDisplay.innerHTML = message;
+    // stop is down to zero
+    if (secondsRemaining === 0) {
+      const timer = document.getElementById('timer');
+      const minutes = parseInt(timer.getAttribute('data-setting-minutes'));
+      const seconds = parseInt(timer.getAttribute('data-setting-seconds'));
+      if (minutes > 0) {
+        secondsRemaining = minutes * 60 + seconds + 1;
+      } else {
+        document.querySelector(".atc-timer").style.display = "none";
+        clearInterval(intervalHandle);
+      }
+    }
+    //subtract from seconds remaining
+    secondsRemaining--;
+  }
+
+  function startCountdown() {
+    var timer = document.getElementById('timer');
+    var minutes = parseInt(timer.getAttribute('data-minutes'));
+    var seconds = parseInt(timer.getAttribute('data-seconds'));
+    var dtime = minutes + (seconds / 60);
+    // check if not a number
+    if (isNaN(dtime)) {
+      alert("Please enter timer number in correct format (mm:ss). Go back to app timer settings and change the input");
+      return; // stops function if true
+    }
+    // how many seconds
+    secondsRemaining = dtime * 60;
+    //every second, call the "tick" function
+    // have to make it into a variable so that you can stop the interval later!!!
+    intervalHandle = setInterval(tick, 1000);
+  }
+  window.onload = function() {
+    main();
+  };
+</script>
+<div id="widgetTemplate" style="display: none; position: fixed; bottom: 0; z-index: 9999999999999999999; width: 100%;" class=""></div> 
+
+{% schema %} 
+{ 
+  "name": "Sticky ATC", 
+  "target": "body", 
+  "settings": [] 
+} 
+{% endschema %}
